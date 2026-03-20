@@ -257,6 +257,7 @@ class CoRSE_SaDE(AttackAlgorithmBase):
             for ind in pop:
                 r = spec.decode(ind.z)
                 r = ClipAndProject(r, x_range, epsilon)
+                ind.r = r
                 R_batch.append(r)
                 
             fitness, fit, used = SafeEvaluateBatch(problem, R_batch)
@@ -372,7 +373,7 @@ class CoRSE_SaDE(AttackAlgorithmBase):
         if best is None:
             return np.zeros(dim)
             
-        best_r = ClipAndProject(spec.decode(best.z), x_range, epsilon)
+        best_r = best.r
         if best.fitness == 0:
             return best_r
             
