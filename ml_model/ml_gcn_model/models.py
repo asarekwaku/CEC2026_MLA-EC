@@ -124,7 +124,8 @@ def gcn_resnet101_attack(num_classes, t, pretrained=True, adj_file=None, word_ve
     print(save_model_path)
     with open(word_vec_file, 'rb') as f:
         inp = pickle.load(f)
-    checkpoint = torch.load(save_model_path)
+    device = 'cuda' if torch.cuda.is_available() else 'cpu'
+    checkpoint = torch.load(save_model_path, map_location=device, weights_only=False)
     print(checkpoint.keys())
     model.load_state_dict(checkpoint['state_dict'], strict=False)
 #    model.load_state_dict(checkpoint, strict=False)

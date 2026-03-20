@@ -74,7 +74,7 @@ if __name__ == '__main__':
         "target_type": "random",    # Attack type
         "epsilon": 77.596,          # Perturbation limit (L2 norm bound)
         "max_eval": 10000,          # Maximum number of fitness evaluations per image 
-        "data_dir": "/home/dyy/code/MLAE_cec_data"  # Path to the MLAE_cec_data directory
+        "data_dir": "/Users/kwakuasare/Downloads/MLAE_cec_data"  # Path to the MLAE_cec_data directory
     }
 
     algConfig = {
@@ -84,8 +84,9 @@ if __name__ == '__main__':
         "rnd": random.Random(1234)
     }
 
+    from attack_algorithm.corse_sade import CoRSE_SaDE
     problem = EvolutionaryAttackProblem(proConfig)
-    mlde = DE_RAND1(algConfig)
+    mlde = CoRSE_SaDE(algConfig)
     problem.attack(mlde)
     print("attack_rate", problem.attack_rate())
 

@@ -30,6 +30,7 @@ class Inceptionv3Rank(nn.Module):
 def inceptionv3_attack(num_classes, save_model_path=None):
     model = models.inception_v3(pretrained=True)
     model = Inceptionv3Rank(model, num_classes)
-    checkpoint = torch.load(save_model_path) #测试使用 ,map_location='cpu'
+    device = 'cuda' if torch.cuda.is_available() else 'cpu'
+    checkpoint = torch.load(save_model_path, map_location=device, weights_only=False) #测试使用 ,map_location='cpu'
     model.load_state_dict(checkpoint, strict=False)
     return model
