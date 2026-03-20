@@ -106,7 +106,7 @@ def ClipAndProject(r_flat, x_range, epsilon):
     r_flat = np.clip(r_flat, lows, highs)
     norm = np.linalg.norm(r_flat)
     if norm > epsilon:
-        r_flat = r_flat * (epsilon / norm)
+        r_flat = r_flat * ((epsilon - 1e-5) / norm)
     return r_flat
 
 def SafeEvaluateBatch(problem: SingleImageProblem, R_batch_flat):
