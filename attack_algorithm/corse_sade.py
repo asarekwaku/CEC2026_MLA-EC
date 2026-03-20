@@ -284,9 +284,12 @@ class CoRSE_SaDE(AttackAlgorithmBase):
                     
                 gen += 1
                 
-                if gen % self.probe_every == 0 and best is not None:
-                    lambda_t = LambdaSchedule(problem.evaluations, max_eval, self.lambda_min, self.lambda_max)
-                    probe = AntitheticProbe(problem, best.z, spec, self.probe_sigma, primary, lambda_t, x_range, epsilon)
+                if gen % self.probe_every == 0:
+                    valid_pop = [x for x in pop if x.score != float('inf')]
+                    if valid_pop:
+                        stage_best = min(valid_pop, key=lambda x: x.score)
+                        lambda_t = LambdaSchedule(problem.evaluations, max_eval, self.lambda_min, self.lambda_max)
+                        probe = AntitheticProbe(problem, stage_best.z, spec, self.probe_sigma, primary, lambda_t, x_range, epsilon)
                     if probe is not None:
                         m = self.beta_m * m + (1 - self.beta_m) * probe['direction']
                         if probe['score'] < best_score:
